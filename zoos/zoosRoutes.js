@@ -38,6 +38,24 @@ router.delete('/:id', (req, res) => {
     .catch(_err => res.status(500).json({message: "Error deleting zoo."}));
 });
 
+router.put('/:id', (req, res) => {
+  const {id} = req.params;
+  const changes = req.body;
+  if (changes.name && changes.name !== '') {
+    db.update(id, changes)
+      .then(updated => updated
+            ? db.getById(id)
+            .then(zoo => res.status(200).json(zoo))
+            .catch(error => res.status(500).json(
+              {message: "Zoo updated, but an error occurred when fetching updated data", error}
+            ))
+            : res.status(404).json({message: "Zoo with ID does not exist."}))
+      .catch(_err => res.status(500).json({message: "Error updating zoo."}));
+  } else {
+    res.status(400).json({message: "Changes are required to update zoo."});
+  }
+});
+
 module.exports = router;
 
 

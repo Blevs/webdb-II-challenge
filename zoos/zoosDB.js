@@ -4,7 +4,8 @@ module.exports = {
   get,
   getById,
   insert,
-  remove
+  remove,
+  update
 };
 
 function get() {
@@ -21,4 +22,8 @@ function insert(zoo) {
 
 function remove(id) {
   return db('zoos').where({id}).del();
+};
+
+function update(id, changes) {
+  return db('zoos').where({id}).update(changes, 'id');
 };
