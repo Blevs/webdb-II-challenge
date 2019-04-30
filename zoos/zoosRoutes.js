@@ -29,6 +29,15 @@ router.get('/:id', (req, res) => {
     .catch(_err => res.status(500).json({message: "Error fetching zoo."}));
 });
 
+router.delete('/:id', (req, res) => {
+  const {id} = req.params;
+  db.remove(id)
+    .then(deleted => deleted
+          ? res.status(204).end()
+          : res.status(404).json({message: "Zoo with ID does not exist."}))
+    .catch(_err => res.status(500).json({message: "Error deleting zoo."}));
+});
+
 module.exports = router;
 
 

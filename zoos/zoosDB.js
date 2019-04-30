@@ -3,7 +3,8 @@ const db = require('../data/db.js');
 module.exports = {
   get,
   getById,
-  insert
+  insert,
+  remove
 };
 
 function get() {
@@ -16,4 +17,8 @@ function getById(id) {
 
 function insert(zoo) {
   return db('zoos').insert(zoo, 'id').then(([id]) => getById(id));
+};
+
+function remove(id) {
+  return db('zoos').where({id}).del();
 };
