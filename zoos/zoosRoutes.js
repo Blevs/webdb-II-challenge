@@ -20,6 +20,15 @@ router.post('/', (req, res) => {
   }
 });
 
+router.get('/:id', (req, res) => {
+  const {id} = req.params;
+  db.getById(id)
+    .then(zoo => zoo
+          ? res.status(200).json(zoo)
+          : res.status(404).json({message: "Zoo with ID does not exist."}))
+    .catch(_err => res.status(500).json({message: "Error fetching zoo."}));
+});
+
 module.exports = router;
 
 
